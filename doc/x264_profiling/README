@@ -1,6 +1,15 @@
 **************************************************************************************
+Rev 1.0  Initial version to get familiar with the process(SECTION 1).
+
+Rev 1.1  Added common procedures to do encoder profiling and uploading the results to the repository(SECTION 2)
+*************************************************************************************
+
+
+ 
 **************************************************************************************
-This file is targeted at newbies who are unfamiliar with what to do after obtaining the 
+                                     SECTION 1
+**************************************************************************************
+This section (consisting of 5 steps)is targeted at newbies who are unfamiliar with what to do after obtaining the 
 X264 encoder source from videolan.org
 
 Options may have to be changed as needed for a particular situation.
@@ -8,11 +17,8 @@ Options may have to be changed as needed for a particular situation.
 This is basically summarized from the threads in the topic
 "VLC x264 GCC profiling" under [Home » All forums » OC H.264 project]
 
-
-System    : Atom N270 (1.6 GHz) with 1GB DDR2 (667 MHz) running Ubuntu Netbook Remix
- 
-**************************************************************************************
-**************************************************************************************
+System used for section 1  : Atom N270 (1.6 GHz) with 1GB DDR2 (667 MHz) running Ubuntu Netbook Remix
+-----------------------------------------------------------------------------------------------------------------------
 
 STEP 1 of 5:
 
@@ -121,4 +127,37 @@ STEP 5 of 5: Run profiling and redirect the results to a text file
 
 test $ gprof -b x264 gmon.out >profile_test.txt
 
+
+**************************************************************************************
+                               SECTION 2 (originally posted by Gil onthe H.264 forum)
+**************************************************************************************
+
+VLC x264 GCC profiling
+
+I suggest the following procedure for profiling: 
+
+1. use the executable from the repository /oc-h264-encoder/trunk/doc/x264_profiling/bin/x264 for encoding the .yuv file, using the format: 
+
+./x264 --profile=baseline -o test.264 test.yuv widthxheight
+
+2. Check that the output test.264 is correct. you can play it on vlc player and check that it looks like the original .yuv file. 
+
+3. upload the gmon.out file made by the execution of x264 to the repository: 
+
+/oc-h264-encoder/trunk/doc/x264_profiling/gmon_files/
+
+ name it as follows: 
+
+ file_name_widthxheight_gmon.out 
+
+ for example: akiyo_qcif_176x144_gmon.out
+
+4. when commiting, let the comment include the following info:
+added profiling output for file: filename.yuv from: url with size: widthxheight
+
+for example: added profiling output for file: akiyo_qcif.yuv from: http://trace.eas.asu.edu/yuv/akiyo/akiyo_qcif.7z with size: 176x144.
+
+I think it would be good to start with the files from:http://trace.eas.asu.edu/yuv/
+
+After we get enough gmon.out files, we can check their relative computation intensive functions and start debating which parts to implement in HW. 
 
